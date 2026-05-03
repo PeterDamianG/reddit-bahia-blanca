@@ -1,76 +1,88 @@
-// Tarjeta 3D — drag con mouse/touch + flip por botón
-// No frameworks, no dependencias. Pointer Events API (mouse + touch unificado).
+// Tarjeta 3D — drag con Pointer Events sobre auto-rotación CSS + flip manual
+// Drag threshold permite que clicks en links pasen sin interferencia.
 
 (() => {
   const card = document.getElementById('card');
   const floater = document.querySelector('.floater');
+  const spinner = document.getElementById('spinner');
   const flipBtn = document.getElementById('flipBtn');
 
-  // Pose de reposo de la tarjeta. baseY = 0 (frente) o 180 (reverso).
-  // Los ángulos iniciales del CSS dan una pose "isométrica" que invitan a girar.
-  const REST_X = 6;
-  const REST_Y_FRONT = -12;
-  const REST_Y_BACK = -12 + 180;
-
-  let baseY = REST_Y_FRONT;   // pose actual al soltar
-  let liveY = REST_Y_FRONT;   // pose mientras se arrastra
-  let liveX = REST_X;
-  let dragging = false;
+  const DRAG_THRESHOLD = 6; // px — umbral antes de iniciar drag
+  let isPossibleDrag = false;
+  let isDragging = false;
   let startPx = 0;
   let startPy = 0;
+  let liveY = 0;
+  let liveX = 0;
 
-  const SMOOTH = 'transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1)';
-  const SLOW = 'transform 0.95s cubic-bezier(0.2, 0.8, 0.2, 1)';
+  // Estados de la cara mostrada manualmente:
+  //   'auto'   — auto-rotación CSS continua corriendo
+  //   'back'   — bloqueado mostrando reverso
+  //   'front'  — bloqueado mostrando frente
+  let lockState = 'auto';
 
-  function setTransform(y, x, transition) {
-    card.style.transition = transition || 'none';
-    card.style.transform = `rotateY(${y}deg) rotateX(${x}deg)`;
+  function pauseAnimations() {
+    spinner.style.animationPlayState = 'paused';
+    floater.style.animationPlayState = 'paused';
+  }
+  function resumeAnimations() {
+    spinner.style.animationPlayState = 'running';
+    floater.style.animationPlayState = 'running';
   }
 
-  function settleToBase(transition) {
-    setTransform(baseY, REST_X, transition);
-    liveY = baseY;
-    liveX = REST_X;
+  function applyLock() {
+    spinner.classList.remove('flipped', 'front-locked');
+    if (lockState === 'back') spinner.classList.add('flipped');
+    else if (lockState === 'front') spinner.classList.add('front-locked');
+    // 'auto' → ninguna clase, animación corre normal
   }
 
+  // ─── Drag interactivo (rotateY/X libre con mouse) ───────────────
   card.addEventListener('pointerdown', (ev) => {
-    // Si el click cae en un link o botón, dejá que el browser maneje el evento.
-    if (ev.target.closest('a, button')) return;
-    ev.preventDefault();
-    dragging = true;
+    isPossibleDrag = true;
     startPx = ev.clientX;
     startPy = ev.clientY;
-    card.classList.add('dragging');
-    floater.style.animationPlayState = 'paused';
-    try {
-      card.setPointerCapture(ev.pointerId);
-    } catch (_) {
-      /* ignore */
-    }
   });
 
   card.addEventListener('pointermove', (ev) => {
-    if (!dragging) return;
+    if (!isPossibleDrag) return;
     const dx = ev.clientX - startPx;
     const dy = ev.clientY - startPy;
-    liveY = baseY + dx * 0.5;
-    liveX = REST_X - dy * 0.4;
-    if (liveX > 55) liveX = 55;
-    if (liveX < -55) liveX = -55;
-    setTransform(liveY, liveX);
+
+    if (!isDragging) {
+      if (Math.hypot(dx, dy) < DRAG_THRESHOLD) return;
+      isDragging = true;
+      card.classList.add('dragging');
+      pauseAnimations();
+      try {
+        card.setPointerCapture(ev.pointerId);
+      } catch (_) {
+        /* ignore */
+      }
+    }
+
+    liveY = dx * 0.5;
+    liveX = -dy * 0.4;
+    if (liveX > 50) liveX = 50;
+    if (liveX < -50) liveX = -50;
+    card.style.transition = 'none';
+    card.style.transform = `rotateY(${liveY}deg) rotateX(${liveX}deg)`;
   });
 
-  function endDrag(ev) {
-    if (!dragging) return;
-    dragging = false;
+  function endInteraction(ev) {
+    isPossibleDrag = false;
+    if (!isDragging) return;
+    isDragging = false;
     card.classList.remove('dragging');
-    floater.style.animationPlayState = 'running';
 
-    // Snap a la cara más cercana (frente o reverso).
-    const norm = ((liveY % 360) + 360) % 360;
-    const isBack = norm > 90 && norm < 270;
-    baseY = isBack ? REST_Y_BACK : REST_Y_FRONT;
-    settleToBase(SMOOTH);
+    // Animar la tarjeta de vuelta a transform identidad
+    card.style.transition = 'transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1)';
+    card.style.transform = 'rotateY(0deg) rotateX(0deg)';
+
+    // Reanudar animaciones según el estado de lock
+    setTimeout(() => {
+      if (lockState === 'auto') resumeAnimations();
+    }, 600);
 
     if (ev && ev.pointerId !== undefined) {
       try {
@@ -81,27 +93,29 @@
     }
   }
 
-  card.addEventListener('pointerup', endDrag);
-  card.addEventListener('pointercancel', endDrag);
-  card.addEventListener('pointerleave', (ev) => {
-    if (dragging) endDrag(ev);
-  });
+  card.addEventListener('pointerup', endInteraction);
+  card.addEventListener('pointercancel', endInteraction);
+  document.addEventListener('pointerup', endInteraction);
 
-  // Botón Voltear: alterna frente↔reverso con animación
+  // ─── Botón Voltear: ciclo auto → back-locked → front-locked → auto ───
   flipBtn.addEventListener('click', (ev) => {
     ev.stopPropagation();
-    baseY = baseY === REST_Y_FRONT ? REST_Y_BACK : REST_Y_FRONT;
-    settleToBase(SLOW);
+    if (lockState === 'auto') {
+      lockState = 'back';
+      pauseAnimations();
+    } else if (lockState === 'back') {
+      lockState = 'front';
+    } else {
+      lockState = 'auto';
+      resumeAnimations();
+    }
+    applyLock();
   });
 
-  // Atajo de teclado: F voltea la tarjeta
+  // Atajo de teclado F = voltear (mismo ciclo)
   document.addEventListener('keydown', (ev) => {
     if (ev.key === 'f' || ev.key === 'F') {
-      baseY = baseY === REST_Y_FRONT ? REST_Y_BACK : REST_Y_FRONT;
-      settleToBase(SLOW);
+      flipBtn.click();
     }
   });
-
-  // Pose inicial
-  settleToBase('none');
 })();

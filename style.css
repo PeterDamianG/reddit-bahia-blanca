@@ -3,7 +3,6 @@
   /* Reddit palette */
   --orange: #ff4500;
   --orange-2: #ff5700;
-  --orange-soft: #ffd7c2;
   --reddit-light: #f6f7f8;
   --reddit-card: #ffffff;
   --reddit-text: #1a1a1b;
@@ -62,7 +61,7 @@ body {
   position: relative;
 }
 
-/* ─── Floater (animación ambiente de flotación) ──────────────────── */
+/* ─── Floater (animación ambiente vertical) ─────────────────────── */
 .floater {
   width: var(--card-w);
   height: var(--card-h);
@@ -71,7 +70,28 @@ body {
   position: relative;
 }
 
-/* ─── Card (controlada por JS para drag/flip) ────────────────────── */
+/* ─── Auto-spinner (rotación lenta continua) ────────────────────── */
+.auto-spinner {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  animation: autoSpin 22s linear infinite;
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.auto-spinner.paused {
+  animation-play-state: paused;
+}
+/* Cuando se hace flip manual, paramos la animación y forzamos lado */
+.auto-spinner.flipped {
+  animation: none;
+  transform: rotateY(180deg);
+}
+.auto-spinner.front-locked {
+  animation: none;
+  transform: rotateY(0deg);
+}
+
+/* ─── Card (controlada por JS para drag) ────────────────────────── */
 .card {
   width: 100%;
   height: 100%;
@@ -79,12 +99,9 @@ body {
   transform-style: preserve-3d;
   cursor: grab;
   will-change: transform;
-  transform: rotateY(-12deg) rotateX(6deg);
-  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .card.dragging {
   cursor: grabbing;
-  transition: none;
 }
 
 /* ─── Caras (común) ─────────────────────────────────────────────── */
@@ -97,7 +114,7 @@ body {
   box-shadow: var(--shadow);
 }
 
-/* ─── FRENTE (estilo Reddit claro) ──────────────────────────────── */
+/* ─── FRENTE (claro estilo Reddit) ──────────────────────────────── */
 .face.front {
   background: linear-gradient(
     135deg,
@@ -119,17 +136,23 @@ body {
   height: 8px;
   background: linear-gradient(90deg, var(--orange) 0%, var(--orange-2) 100%);
 }
-/* Sello "OFICIAL" en esquina */
-.face.front::after {
-  content: 'invitación oficial';
+
+/* Sello "INVITACIÓN OFICIAL" prominente, esquina superior derecha */
+.official-stamp {
   position: absolute;
   top: 18px;
   right: 22px;
-  font-size: 9px;
-  letter-spacing: 0.2em;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--reddit-text-muted);
-  font-weight: 600;
+  color: var(--orange);
+  background: rgba(255, 69, 0, 0.1);
+  border: 1.5px solid var(--orange);
+  padding: 4px 10px;
+  border-radius: 4px;
+  transform: rotate(-3deg);
+  box-shadow: 0 2px 4px rgba(255, 69, 0, 0.25);
 }
 
 .front-grid {
@@ -140,22 +163,18 @@ body {
   margin-top: 6px;
 }
 .snoo-wrap {
-  width: 100px;
-  height: 100px;
+  width: 110px;
+  height: 110px;
   flex-shrink: 0;
   display: grid;
   place-items: center;
-  background: linear-gradient(135deg, #ff4500 0%, #ff7a00 100%);
-  border-radius: 20px;
-  box-shadow:
-    0 8px 16px -4px rgba(255, 69, 0, 0.5),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.15);
 }
 .snoo {
-  width: 78px;
-  height: 78px;
+  width: 110px;
+  height: 110px;
   display: block;
-  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.15));
+  filter: drop-shadow(0 8px 16px rgba(255, 69, 0, 0.45))
+    drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
 }
 .front-text {
   flex: 1;
@@ -193,6 +212,9 @@ body {
   margin-top: 14px;
   padding-top: 14px;
   border-top: 1px solid var(--reddit-divider);
+  /* Crítico: que los clicks lleguen a los links */
+  position: relative;
+  z-index: 2;
 }
 .action {
   flex: 1;
@@ -209,6 +231,8 @@ body {
     transform 0.15s ease,
     box-shadow 0.15s ease,
     background-color 0.15s ease;
+  cursor: pointer;
+  /* Que el cursor sea pointer al pasar por encima */
 }
 .action svg {
   width: 18px;
@@ -326,6 +350,8 @@ body {
   text-decoration: none;
   color: #d7dadc !important;
   transition: color 0.15s ease;
+  position: relative;
+  z-index: 2;
 }
 .info-row .value.link:hover {
   color: var(--orange) !important;
@@ -336,7 +362,89 @@ body {
   font-weight: 500;
 }
 
-/* ─── Botón flip ─────────────────────────────────────────────────── */
+/* ─── Animaciones ────────────────────────────────────────────────── */
+@keyframes floatY {
+  0%,
+  100% {
+    transform: translateY(-10px);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+/* Auto-spin: rotación Y continua + pequeño tilt X variante */
+@keyframes autoSpin {
+  0% {
+    transform: rotateY(0deg) rotateX(4deg);
+  }
+  25% {
+    transform: rotateY(90deg) rotateX(-3deg);
+  }
+  50% {
+    transform: rotateY(180deg) rotateX(4deg);
+  }
+  75% {
+    transform: rotateY(270deg) rotateX(-3deg);
+  }
+  100% {
+    transform: rotateY(360deg) rotateX(4deg);
+  }
+}
+
+/* ─── Responsive (mobile) ───────────────────────────────────────── */
+@media (max-width: 520px) {
+  :root {
+    --card-w: 92vw;
+    --card-h: calc(92vw / 1.6);
+  }
+  .face.front {
+    padding: 18px 18px;
+  }
+  .face.back {
+    padding: 16px 18px;
+  }
+  .snoo-wrap {
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
+  }
+  .snoo {
+    width: 66px;
+    height: 66px;
+  }
+  .front-text h1 {
+    font-size: 24px;
+  }
+  .qr {
+    width: 110px;
+    height: 110px;
+  }
+  .info-row .value {
+    font-size: 13px;
+  }
+  .info-row .value.time {
+    font-size: 18px;
+  }
+  .action {
+    font-size: 11px;
+    padding: 8px 10px;
+  }
+  .official-stamp {
+    font-size: 9px;
+    padding: 3px 8px;
+  }
+}
+
+/* ─── Reduced motion ────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .floater,
+  .auto-spinner {
+    animation: none;
+  }
+}
+
+/* ─── Botón Voltear ─────────────────────────────────────────────── */
 .flip-btn {
   position: absolute;
   bottom: -56px;
@@ -360,6 +468,7 @@ body {
     transform 0.15s ease;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  z-index: 10;
 }
 .flip-btn svg {
   width: 16px;
@@ -375,93 +484,10 @@ body {
   transform: translateX(-50%) translateY(0);
 }
 
-/* ─── Hint inferior ─────────────────────────────────────────────── */
-.hint {
-  position: absolute;
-  bottom: 24px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.45);
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  pointer-events: none;
-}
-.kbd {
-  display: inline-block;
-  padding: 1px 6px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 4px;
-  font-size: 11px;
-  margin: 0 1px;
-}
-
-/* ─── Animaciones ────────────────────────────────────────────────── */
-@keyframes floatY {
-  0%,
-  100% {
-    transform: translateY(-10px);
-  }
-  50% {
-    transform: translateY(10px);
-  }
-}
-
-/* ─── Responsive (mobile) ───────────────────────────────────────── */
-@media (max-width: 520px) {
-  :root {
-    --card-w: 92vw;
-    --card-h: calc(92vw / 1.6);
-  }
-  .face.front {
-    padding: 18px 18px;
-  }
-  .face.back {
-    padding: 16px 18px;
-  }
-  .snoo-wrap {
-    width: 80px;
-    height: 80px;
-    border-radius: 16px;
-  }
-  .snoo {
-    width: 62px;
-    height: 62px;
-  }
-  .front-text h1 {
-    font-size: 24px;
-  }
-  .qr {
-    width: 110px;
-    height: 110px;
-  }
-  .info-row .value {
-    font-size: 13px;
-  }
-  .info-row .value.time {
-    font-size: 18px;
-  }
-  .action {
-    font-size: 11px;
-    padding: 8px 10px;
-  }
-  .face.front::after {
-    display: none;
-  }
-}
-
-/* ─── Reduced motion ────────────────────────────────────────────── */
-@media (prefers-reduced-motion: reduce) {
-  .floater {
-    animation: none;
-  }
-}
-
 /* ─── Focus visible ─────────────────────────────────────────────── */
 .card:focus-visible,
-.flip-btn:focus-visible,
-.action:focus-visible {
+.action:focus-visible,
+.flip-btn:focus-visible {
   outline: 2px solid var(--orange);
   outline-offset: 4px;
 }

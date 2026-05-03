@@ -20,105 +20,136 @@
   <body>
     <main class="scene" aria-label="Tarjeta de invitación 3D al primer aniversario de Reddit Bahía Blanca">
       <div class="floater">
-        <div class="card" id="card" tabindex="0" aria-label="Tarjeta. Click sostenido y arrastrar para girar.">
-          <!-- ── FRENTE ── -->
-          <section class="face front">
-            <div class="front-grid">
-              <div class="snoo-wrap" aria-hidden="true">
-                <svg class="snoo" viewBox="0 0 200 200">
-                  <!-- ears (orange) -->
-                  <circle cx="40" cy="105" r="18" fill="#FF4500"/>
-                  <circle cx="160" cy="105" r="18" fill="#FF4500"/>
-                  <circle cx="40" cy="105" r="9" fill="#fff"/>
-                  <circle cx="160" cy="105" r="9" fill="#fff"/>
-                  <!-- body -->
-                  <ellipse cx="100" cy="115" rx="68" ry="58" fill="#fff"/>
-                  <!-- antenna -->
-                  <line x1="100" y1="36" x2="100" y2="64" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
-                  <circle cx="100" cy="30" r="10" fill="#fff"/>
-                  <!-- eyes -->
-                  <circle cx="78" cy="106" r="13" fill="#FF4500"/>
-                  <circle cx="122" cy="106" r="13" fill="#FF4500"/>
-                  <circle cx="78" cy="106" r="6" fill="#1A1A1B"/>
-                  <circle cx="122" cy="106" r="6" fill="#1A1A1B"/>
-                  <!-- smile -->
-                  <path d="M 78 138 Q 100 156 122 138" stroke="#1A1A1B" stroke-width="5" fill="none" stroke-linecap="round"/>
-                  <!-- belly highlight -->
-                  <ellipse cx="100" cy="148" rx="22" ry="6" fill="#FFD7C2" opacity="0.6"/>
-                </svg>
-              </div>
-              <div class="front-text">
-                <span class="badge">r/BahiaBlanca</span>
-                <h1>Primer<br />Aniversario</h1>
-                <p class="tagline">Comunidad Reddit Bahía Blanca</p>
-              </div>
-            </div>
+        <div class="auto-spinner" id="spinner">
+          <div class="card" id="card" tabindex="0" aria-label="Tarjeta. Click sostenido y arrastrar para girar.">
+            <!-- ── FRENTE ── -->
+            <section class="face front">
+              <div class="official-stamp">★ Invitación Oficial ★</div>
 
-            <div class="front-actions">
-              <a
-                class="action action-reddit"
-                href="https://www.reddit.com/r/BahiaBlanca/"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <circle cx="12" cy="12" r="11" fill="#FF4500"/>
-                  <path d="M18 11.5a1.7 1.7 0 0 0-2.9-1.2 8.3 8.3 0 0 0-4.5-1.4l.8-3.7 2.6.6a1.2 1.2 0 1 0 .1-.7l-2.9-.6a.3.3 0 0 0-.4.2l-.9 4.2a8.3 8.3 0 0 0-4.6 1.4 1.7 1.7 0 1 0-1.9 2.7 3 3 0 0 0 0 .5c0 2.5 2.9 4.5 6.6 4.5s6.6-2 6.6-4.5a3 3 0 0 0 0-.5 1.7 1.7 0 0 0 1.4-1.5z" fill="#fff"/>
-                  <circle cx="9.5" cy="13" r="1.1" fill="#1A1A1B"/>
-                  <circle cx="14.5" cy="13" r="1.1" fill="#1A1A1B"/>
-                  <path d="M14.7 15.4a3.4 3.4 0 0 1-2.7 1 3.4 3.4 0 0 1-2.7-1 .3.3 0 0 0-.4.4 4 4 0 0 0 3.1 1.3 4 4 0 0 0 3.1-1.3.3.3 0 0 0-.4-.4z" fill="#1A1A1B"/>
-                </svg>
-                <span>Subreddit</span>
-              </a>
-              <a
-                class="action action-whatsapp"
-                href="https://chat.whatsapp.com/GBvNNtyU3DZEY3coXppfxD?mode=gi_t"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path fill="#25D366" d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.1-1.3A10 10 0 1 0 12 2z"/>
-                  <path fill="#fff" d="M16.7 14.4c-.3-.1-1.6-.8-1.8-.9s-.4-.1-.6.1-.7.9-.8 1-.3.2-.6.1a7.2 7.2 0 0 1-3.6-3.1c-.3-.5.3-.4.8-1.4a.5.5 0 0 0 0-.5c0-.1-.6-1.4-.8-1.9s-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-1 2.3 5.3 5.3 0 0 0 1.1 2.8 12 12 0 0 0 4.6 4.1c2.7 1.1 2.7.7 3.2.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.2-.2-.5-.3z"/>
-                </svg>
-                <span>WhatsApp</span>
-              </a>
-            </div>
-          </section>
+              <div class="front-grid">
+                <div class="snoo-wrap" aria-hidden="true">
+                  <svg class="snoo" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#snoo-clip)">
+                      <circle cx="128" cy="128" r="128" fill="#FF4500"/>
+                      <path d="M55.44 153.54C71.95 153.54 85.33 140.16 85.33 123.65C85.33 107.14 71.95 93.76 55.44 93.76C38.93 93.76 25.55 107.14 25.55 123.65C25.55 140.16 38.93 153.54 55.44 153.54Z" fill="url(#snoo-r0)"/>
+                      <path d="M200.56 153.54C217.07 153.54 230.45 140.16 230.45 123.65C230.45 107.14 217.07 93.76 200.56 93.76C184.05 93.76 170.67 107.14 170.67 123.65C170.67 140.16 184.05 153.54 200.56 153.54Z" fill="url(#snoo-r1)"/>
+                      <path d="M128.07 213.33C175.2 213.33 213.4 184.68 213.4 149.33C213.4 113.98 175.2 85.33 128.07 85.33C80.94 85.33 42.74 113.98 42.74 149.33C42.74 184.68 80.94 213.33 128.07 213.33Z" fill="url(#snoo-r2)"/>
+                      <path d="M102.84 143.11C102.34 153.95 95.14 157.89 86.77 157.89C78.4 157.89 72 152.34 72.5 141.5C73 130.66 80.2 123.48 88.57 123.48C96.94 123.48 103.34 132.27 102.84 143.11Z" fill="#842123"/>
+                      <path d="M183.64 141.49C184.14 152.33 177.75 157.88 169.37 157.88C160.99 157.88 153.79 153.95 153.3 143.1C152.8 132.26 159.19 123.47 167.57 123.47C175.95 123.47 183.15 130.64 183.64 141.49Z" fill="#842123"/>
+                      <path d="M102.85 144.05C102.38 154.2 95.65 157.88 87.81 157.88C79.97 157.88 73.99 152.37 74.46 142.22C74.93 132.07 81.66 125.43 89.5 125.43C97.34 125.43 103.32 133.9 102.85 144.05Z" fill="url(#snoo-r3)"/>
+                      <path d="M166.65 125.44C174.49 125.44 181.22 132.08 181.69 142.23C182.16 152.38 176.18 157.89 168.34 157.89C160.5 157.89 153.77 154.21 153.3 144.06C152.83 133.91 158.81 125.44 166.65 125.44Z" fill="url(#snoo-r4)"/>
+                      <path d="M128.07 165.12C117.49 165.12 107.35 165.63 97.97 166.56C96.37 166.72 95.35 168.35 95.97 169.81C101.22 182.12 113.61 190.77 128.07 190.77C142.53 190.77 154.91 182.12 160.17 169.81C160.79 168.35 159.78 166.72 158.17 166.56C148.79 165.63 138.65 165.12 128.07 165.12Z" fill="#BBCFDA"/>
+                      <path d="M128.07 167.47C117.52 167.47 107.41 167.99 98.06 168.94C96.46 169.1 95.45 170.76 96.07 172.24C101.31 184.75 113.66 193.53 128.06 193.53C142.46 193.53 154.82 184.74 160.06 172.24C160.68 170.76 159.67 169.1 158.07 168.94C148.72 167.99 138.61 167.47 128.06 167.47H128.07Z" fill="#fff"/>
+                      <path d="M128.07 166.25C117.69 166.25 107.74 166.76 98.53 167.69C96.96 167.85 95.96 169.48 96.57 170.94C101.72 183.25 113.88 191.9 128.07 191.9C142.26 191.9 154.41 183.25 159.57 170.94C160.18 169.48 159.18 167.85 157.61 167.69C148.41 166.76 138.46 166.25 128.07 166.25Z" fill="url(#snoo-r5)"/>
+                      <path d="M174.81 76.63C186.51 76.63 195.99 67.15 195.99 55.45C195.99 43.75 186.51 34.27 174.81 34.27C163.11 34.27 153.63 43.75 153.63 55.45C153.63 67.15 163.11 76.63 174.81 76.63Z" fill="url(#snoo-r6)"/>
+                      <path d="M127.77 88.03C125.23 88.03 123.18 86.97 123.18 85.33C123.18 66.35 138.62 50.92 157.59 50.92C160.13 50.92 162.18 52.98 162.18 55.51C162.18 58.04 160.12 60.1 157.59 60.1C143.68 60.1 132.36 71.42 132.36 85.33C132.36 86.97 130.3 88.03 127.77 88.03Z" fill="url(#snoo-r7)"/>
+                      <path d="M97.27 149.07C97.27 153 93.09 154.76 87.94 154.76C82.79 154.76 78.61 153 78.61 149.07C78.61 145.14 82.79 141.96 87.94 141.96C93.09 141.96 97.27 145.14 97.27 149.07Z" fill="#FF6101"/>
+                      <path d="M177.54 149.07C177.54 153 173.36 154.76 168.21 154.76C163.06 154.76 158.88 153 158.88 149.07C158.88 145.14 163.06 141.96 168.21 141.96C173.36 141.96 177.54 145.14 177.54 149.07Z" fill="#FF6101"/>
+                      <circle cx="94.38" cy="134.79" r="3.32" fill="#FFC49C"/>
+                      <circle cx="173.29" cy="134.79" r="3.32" fill="#FFC49C"/>
+                    </g>
+                    <defs>
+                      <radialGradient id="snoo-r0" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(57.14 107.56) scale(59.9 52.25)">
+                        <stop stop-color="#FEFFFF"/><stop offset=".4" stop-color="#FEFFFF"/><stop offset=".7" stop-color="#DEE9EC"/><stop offset=".8" stop-color="#C8D5DD"/><stop offset=".9" stop-color="#FFEBEF"/>
+                      </radialGradient>
+                      <radialGradient id="snoo-r1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(225.01 107.56) rotate(-180) scale(59.9 52.25)">
+                        <stop stop-color="#FEFFFF"/><stop offset=".4" stop-color="#FEFFFF"/><stop offset=".7" stop-color="#DEE9EC"/><stop offset=".8" stop-color="#C8D5DD"/><stop offset=".9" stop-color="#FFEBEF"/>
+                      </radialGradient>
+                      <radialGradient id="snoo-r2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(130.35 99.18) scale(180.69 126.87)">
+                        <stop stop-color="#FEFFFF"/><stop offset=".4" stop-color="#FEFFFF"/><stop offset=".7" stop-color="#DEE9EC"/><stop offset=".8" stop-color="#C8D5DD"/><stop offset=".9" stop-color="#FFEBEF"/>
+                      </radialGradient>
+                      <radialGradient id="snoo-r3" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(90.19 150.97) scale(15.1 22.16)">
+                        <stop stop-color="#FF6600"/><stop offset=".5" stop-color="#FF4500"/><stop offset=".82" stop-color="#F43F07"/><stop offset="1" stop-color="#D4301F"/>
+                      </radialGradient>
+                      <radialGradient id="snoo-r4" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(168.76 150.97) rotate(180) scale(15.1 22.16)">
+                        <stop stop-color="#FF6600"/><stop offset=".5" stop-color="#FF4500"/><stop offset=".82" stop-color="#F43F07"/><stop offset="1" stop-color="#D4301F"/>
+                      </radialGradient>
+                      <radialGradient id="snoo-r5" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(128.37 194.91) scale(53.23 35.11)">
+                        <stop stop-color="#172E35"/><stop offset=".29" stop-color="#0E1C21"/><stop offset=".73" stop-color="#030708"/><stop offset="1"/>
+                      </radialGradient>
+                      <radialGradient id="snoo-r6" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(175.31 34.11) scale(46.73)">
+                        <stop stop-color="#FEFFFF"/><stop offset=".4" stop-color="#FEFFFF"/><stop offset=".7" stop-color="#DEE9EC"/><stop offset=".9" stop-color="#FFEBEF"/>
+                      </radialGradient>
+                      <radialGradient id="snoo-r7" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(155.84 85.05) scale(38.3)">
+                        <stop offset=".48" stop-color="#7A9299"/><stop offset=".67" stop-color="#172E35"/><stop offset=".75"/><stop offset=".82" stop-color="#172E35"/>
+                      </radialGradient>
+                      <clipPath id="snoo-clip"><rect width="256" height="256" fill="white"/></clipPath>
+                    </defs>
+                  </svg>
+                </div>
+                <div class="front-text">
+                  <span class="badge">r/BahiaBlanca</span>
+                  <h1>Primer<br />Aniversario</h1>
+                  <p class="tagline">Comunidad Reddit Bahía Blanca</p>
+                </div>
+              </div>
 
-          <!-- ── REVERSO ── -->
-          <section class="face back">
-            <div class="back-header">
-              <span class="badge badge-dark">r/BahiaBlanca</span>
-              <span class="back-title">Información del evento</span>
-            </div>
-            <div class="back-body">
-              <div class="qr-wrap">
-                <img class="qr" src="qr.svg" alt="Código QR" width="130" height="130" />
+              <div class="front-actions">
+                <a
+                  class="action action-reddit"
+                  href="https://www.reddit.com/r/BahiaBlanca/"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="12" r="11" fill="#FF4500"/>
+                    <path d="M18 11.5a1.7 1.7 0 0 0-2.9-1.2 8.3 8.3 0 0 0-4.5-1.4l.8-3.7 2.6.6a1.2 1.2 0 1 0 .1-.7l-2.9-.6a.3.3 0 0 0-.4.2l-.9 4.2a8.3 8.3 0 0 0-4.6 1.4 1.7 1.7 0 1 0-1.9 2.7 3 3 0 0 0 0 .5c0 2.5 2.9 4.5 6.6 4.5s6.6-2 6.6-4.5a3 3 0 0 0 0-.5 1.7 1.7 0 0 0 1.4-1.5z" fill="#fff"/>
+                    <circle cx="9.5" cy="13" r="1.1" fill="#1A1A1B"/>
+                    <circle cx="14.5" cy="13" r="1.1" fill="#1A1A1B"/>
+                    <path d="M14.7 15.4a3.4 3.4 0 0 1-2.7 1 3.4 3.4 0 0 1-2.7-1 .3.3 0 0 0-.4.4 4 4 0 0 0 3.1 1.3 4 4 0 0 0 3.1-1.3.3.3 0 0 0-.4-.4z" fill="#1A1A1B"/>
+                  </svg>
+                  <span>Subreddit</span>
+                </a>
+                <a
+                  class="action action-whatsapp"
+                  href="https://chat.whatsapp.com/GBvNNtyU3DZEY3coXppfxD?mode=gi_t"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="#25D366" d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.1-1.3A10 10 0 1 0 12 2z"/>
+                    <path fill="#fff" d="M16.7 14.4c-.3-.1-1.6-.8-1.8-.9s-.4-.1-.6.1-.7.9-.8 1-.3.2-.6.1a7.2 7.2 0 0 1-3.6-3.1c-.3-.5.3-.4.8-1.4a.5.5 0 0 0 0-.5c0-.1-.6-1.4-.8-1.9s-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-1 2.3 5.3 5.3 0 0 0 1.1 2.8 12 12 0 0 0 4.6 4.1c2.7 1.1 2.7.7 3.2.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.2-.2-.5-.3z"/>
+                  </svg>
+                  <span>WhatsApp</span>
+                </a>
               </div>
-              <div class="back-info">
-                <div class="info-row">
-                  <span class="label">Fecha</span>
-                  <span class="value">Sábado 23 de Mayo 2026</span>
+            </section>
+
+            <!-- ── REVERSO ── -->
+            <section class="face back">
+              <div class="back-header">
+                <span class="badge badge-dark">r/BahiaBlanca</span>
+                <span class="back-title">Información del evento</span>
+              </div>
+              <div class="back-body">
+                <div class="qr-wrap">
+                  <img class="qr" src="qr.svg" alt="Código QR" width="130" height="130" />
                 </div>
-                <div class="info-row">
-                  <span class="label">Apertura</span>
-                  <span class="value time">19 hs</span>
-                </div>
-                <div class="info-row">
-                  <span class="label">Lugar</span>
-                  <a
-                    class="value link"
-                    href="https://www.google.com/maps/search/?api=1&query=Paula+Albarrac%C3%ADn+628%2C+B8000+Bah%C3%ADa+Blanca"
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    Paula Albarracín 628<br />
-                    <span class="muted">Bahía Blanca → Maps</span>
-                  </a>
+                <div class="back-info">
+                  <div class="info-row">
+                    <span class="label">Fecha</span>
+                    <span class="value">Sábado 23 de Mayo 2026</span>
+                  </div>
+                  <div class="info-row">
+                    <span class="label">Apertura</span>
+                    <span class="value time">19 hs</span>
+                  </div>
+                  <div class="info-row">
+                    <span class="label">Lugar</span>
+                    <a
+                      class="value link"
+                      href="https://www.google.com/maps/search/?api=1&query=Paula+Albarrac%C3%ADn+628%2C+B8000+Bah%C3%ADa+Blanca"
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >
+                      Paula Albarracín 628<br />
+                      <span class="muted">Bahía Blanca → Maps</span>
+                    </a>
+                  </div>
                 </div>
               </div>
-            </div>
-          </section>
+            </section>
+          </div>
         </div>
 
         <button class="flip-btn" id="flipBtn" type="button" aria-label="Voltear tarjeta">
@@ -128,7 +159,6 @@
           <span>Voltear</span>
         </button>
       </div>
-      <p class="hint" id="hint">Mantené presionado y arrastrá para mover · Click en <span class="kbd">↻</span> para voltear</p>
     </main>
     <script src="script.js" defer></script>
   </body>
