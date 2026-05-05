@@ -67,15 +67,20 @@ function inlineSvg(svg) {
 }
 
 // ─── Minificación de HTML (regex básico, seguro para nuestro markup) ──
+//
+// Importante: los saltos de línea dentro de un tag (atributos en líneas
+// separadas) deben colapsarse a UN espacio, no eliminarse, porque sino
+// `<a\n  class="x"\n  href="...">` se transforma en `<aclass="x"href="...">`
+// que no es HTML válido y rompe el render (los anchors se vuelven texto y
+// los SVGs/spans hijos quedan sueltos).
 function minifyHTML(s) {
   if (noMinify) return s;
   return s
     .replace(/<!--(?!\[if)[\s\S]*?-->/g, '')              // comentarios HTML (preserva IE conditionals)
-    .replace(/\n+/g, '\n')
-    .replace(/^\s+/gm, '')
-    .replace(/>\s+</g, '><')
-    .replace(/\n/g, '')
-    .replace(/\s{2,}/g, ' ')
+    .replace(/\s+/g, ' ')                                  // colapsa cualquier whitespace (incluye \n) a UN espacio
+    .replace(/>\s+</g, '><')                               // espacios entre tags
+    .replace(/\s+>/g, '>')                                 // espacio antes de cierre de tag de apertura
+    .replace(/\s+\/>/g, '/>')                              // espacio antes de auto-cierre
     .trim();
 }
 
@@ -90,18 +95,20 @@ const qrInline = inlinedSvg.replace(
   '<svg class="qr" width="130" height="130" aria-label="Código QR"'
 );
 
+// Usamos function-replacements para evitar que `$` en el contenido inyectado
+// sea interpretado como special replacement pattern ($&, $1, etc.)
 let bundled = html
   .replace(
     /<link rel="stylesheet" href="style\.css"\s*\/?>/,
-    `<style>${minCss}</style>`
+    () => `<style>${minCss}</style>`
   )
   .replace(
     /<script src="script\.js"[^>]*><\/script>/,
-    `<script>${minJs}</script>`
+    () => `<script>${minJs}</script>`
   )
   .replace(
     /<img class="qr" src="qr\.svg"[^>]*\/?>/,
-    qrInline
+    () => qrInline
   );
 
 bundled = minifyHTML(bundled);

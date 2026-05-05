@@ -15,8 +15,8 @@
   --bg-glow: rgba(255, 69, 0, 0.18);
 
   /* Card dimensions (landscape, business-card-ish) */
-  --card-w: 460px;
-  --card-h: 280px;
+  --card-w: 621px;
+  --card-h: 378px;
 
   /* Shadow with Reddit-orange glow */
   --shadow:
@@ -124,7 +124,7 @@ body {
   color: var(--reddit-text);
   display: flex;
   flex-direction: column;
-  padding: 22px 26px;
+  padding: 30px 35px;
 }
 /* Banda naranja superior */
 .face.front::before {
@@ -133,24 +133,24 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 8px;
+  height: 10px;
   background: linear-gradient(90deg, var(--orange) 0%, var(--orange-2) 100%);
 }
 
 /* Sello "INVITACIÓN OFICIAL" prominente, esquina superior derecha */
 .official-stamp {
   position: absolute;
-  top: 18px;
-  right: 22px;
-  font-size: 10px;
+  top: 24px;
+  right: 30px;
+  font-size: 13px;
   font-weight: 800;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--orange);
   background: rgba(255, 69, 0, 0.1);
-  border: 1.5px solid var(--orange);
-  padding: 4px 10px;
-  border-radius: 4px;
+  border: 2px solid var(--orange);
+  padding: 6px 14px;
+  border-radius: 5px;
   transform: rotate(-3deg);
   box-shadow: 0 2px 4px rgba(255, 69, 0, 0.25);
 }
@@ -158,22 +158,22 @@ body {
 .front-grid {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 27px;
   flex: 1;
-  margin-top: 6px;
+  margin-top: 8px;
 }
 .snoo-wrap {
-  width: 110px;
-  height: 110px;
+  width: 148px;
+  height: 148px;
   flex-shrink: 0;
   display: grid;
   place-items: center;
 }
 .snoo {
-  width: 110px;
-  height: 110px;
+  width: 148px;
+  height: 148px;
   display: block;
-  filter: drop-shadow(0 8px 16px rgba(255, 69, 0, 0.45))
+  filter: drop-shadow(0 10px 20px rgba(255, 69, 0, 0.45))
     drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
 }
 .front-text {
@@ -182,35 +182,46 @@ body {
 }
 .badge {
   display: inline-block;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--orange);
   background: rgba(255, 69, 0, 0.1);
   border: 1px solid rgba(255, 69, 0, 0.35);
   border-radius: 999px;
-  padding: 3px 12px;
+  padding: 4px 16px;
   letter-spacing: 0.04em;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 .front-text h1 {
-  font-size: 30px;
+  font-size: 40px;
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.02em;
   color: var(--reddit-text);
 }
 .tagline {
-  margin-top: 8px;
-  font-size: 12px;
+  margin-top: 10px;
+  font-size: 16px;
   color: var(--reddit-text-muted);
   font-weight: 500;
+}
+.invited {
+  margin-top: 10px;
+  font-size: 15px;
+  color: var(--reddit-text);
+  font-weight: 500;
+}
+.invited strong {
+  color: var(--orange);
+  font-weight: 800;
+  letter-spacing: 0.01em;
 }
 
 .front-actions {
   display: flex;
-  gap: 10px;
-  margin-top: 14px;
-  padding-top: 14px;
+  gap: 14px;
+  margin-top: 16px;
+  padding-top: 16px;
   border-top: 1px solid var(--reddit-divider);
   /* Crítico: que los clicks lleguen a los links */
   position: relative;
@@ -221,10 +232,10 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 9px 12px;
+  gap: 11px;
+  padding: 12px 16px;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 700;
   text-decoration: none;
   transition:
@@ -235,8 +246,8 @@ body {
   /* Que el cursor sea pointer al pasar por encima */
 }
 .action svg {
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   flex-shrink: 0;
 }
 .action-reddit {
@@ -266,7 +277,7 @@ body {
   color: #d7dadc;
   display: flex;
   flex-direction: column;
-  padding: 20px 24px;
+  padding: 27px 32px;
 }
 .face.back::before {
   content: '';
@@ -274,7 +285,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 6px;
+  height: 8px;
   background: linear-gradient(90deg, var(--orange) 0%, var(--orange-2) 100%);
 }
 
@@ -282,7 +293,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 12px;
+  padding-bottom: 16px;
   border-bottom: 1px solid #2a2a2c;
 }
 .badge-dark {
@@ -291,7 +302,7 @@ body {
   margin: 0;
 }
 .back-title {
-  font-size: 11px;
+  font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.18em;
   color: #818384;
@@ -302,46 +313,48 @@ body {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 18px;
-  padding-top: 14px;
+  gap: 24px;
+  padding-top: 19px;
 }
 .qr-wrap {
   background: #fff;
-  padding: 8px;
-  border-radius: 10px;
+  padding: 11px;
+  border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   flex-shrink: 0;
 }
 .qr {
   display: block;
+  width: 175px;
+  height: 175px;
 }
 .back-info {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
   min-width: 0;
 }
 .info-row {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
 }
 .info-row .label {
-  font-size: 10px;
+  font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.16em;
   color: #818384;
   font-weight: 600;
 }
 .info-row .value {
-  font-size: 14px;
+  font-size: 18px;
   color: #d7dadc;
   font-weight: 600;
   line-height: 1.3;
 }
 .info-row .value.time {
-  font-size: 22px;
+  font-size: 30px;
   font-weight: 800;
   color: var(--orange);
   line-height: 1;
@@ -357,7 +370,7 @@ body {
   color: var(--orange) !important;
 }
 .info-row .muted {
-  font-size: 11px;
+  font-size: 14px;
   color: #818384;
   font-weight: 500;
 }
@@ -393,46 +406,72 @@ body {
 }
 
 /* ─── Responsive (mobile) ───────────────────────────────────────── */
-@media (max-width: 520px) {
+@media (max-width: 680px) {
   :root {
     --card-w: 92vw;
-    --card-h: calc(92vw / 1.6);
+    --card-h: calc(92vw / 1.64);
   }
   .face.front {
-    padding: 18px 18px;
+    padding: 18px 20px;
   }
   .face.back {
     padding: 16px 18px;
   }
-  .snoo-wrap {
-    width: 80px;
-    height: 80px;
-    border-radius: 16px;
+  .front-grid {
+    gap: 16px;
   }
+  .snoo-wrap,
   .snoo {
-    width: 66px;
-    height: 66px;
+    width: 88px;
+    height: 88px;
+  }
+  .badge {
+    font-size: 11px;
+    padding: 3px 12px;
   }
   .front-text h1 {
-    font-size: 24px;
+    font-size: 26px;
+  }
+  .tagline {
+    font-size: 12px;
+  }
+  .invited {
+    font-size: 12px;
+    margin-top: 6px;
   }
   .qr {
-    width: 110px;
-    height: 110px;
+    width: 120px;
+    height: 120px;
+  }
+  .back-title {
+    font-size: 11px;
+  }
+  .info-row .label {
+    font-size: 10px;
   }
   .info-row .value {
-    font-size: 13px;
+    font-size: 14px;
   }
   .info-row .value.time {
-    font-size: 18px;
+    font-size: 22px;
+  }
+  .info-row .muted {
+    font-size: 11px;
   }
   .action {
-    font-size: 11px;
-    padding: 8px 10px;
+    font-size: 12px;
+    gap: 8px;
+    padding: 9px 12px;
+  }
+  .action svg {
+    width: 18px;
+    height: 18px;
   }
   .official-stamp {
-    font-size: 9px;
-    padding: 3px 8px;
+    font-size: 10px;
+    padding: 4px 10px;
+    top: 16px;
+    right: 18px;
   }
 }
 
