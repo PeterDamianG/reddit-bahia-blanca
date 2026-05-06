@@ -14,9 +14,13 @@
   --bg-2: #1a1010;
   --bg-glow: rgba(255, 69, 0, 0.18);
 
-  /* Card dimensions (landscape, business-card-ish) */
-  --card-w: 621px;
-  --card-h: 378px;
+  /* Card dimensions (landscape, business-card-ish, ratio ≈1.643)
+     Responsive-by-design: nunca excede 621px (desktop natural), siempre
+     cabe en 92vw (mobile portrait), ni en 82vh / ratio (landscape mobile,
+     reservando espacio para el flip-btn debajo). El alto es derivado. */
+  --card-ratio: 1.643;
+  --card-w: min(621px, 92vw, calc(82vh * var(--card-ratio)));
+  --card-h: calc(var(--card-w) / var(--card-ratio));
 
   /* Shadow with Reddit-orange glow */
   --shadow:
@@ -405,74 +409,87 @@ body {
   }
 }
 
-/* ─── Responsive (mobile) ───────────────────────────────────────── */
-@media (max-width: 680px) {
-  :root {
-    --card-w: 92vw;
-    --card-h: calc(92vw / 1.64);
-  }
-  .face.front {
-    padding: 18px 20px;
-  }
-  .face.back {
-    padding: 16px 18px;
-  }
-  .front-grid {
-    gap: 16px;
-  }
-  .snoo-wrap,
-  .snoo {
-    width: 88px;
-    height: 88px;
-  }
-  .badge {
-    font-size: 11px;
-    padding: 3px 12px;
-  }
-  .front-text h1 {
-    font-size: 26px;
-  }
-  .tagline {
-    font-size: 12px;
-  }
-  .invited {
-    font-size: 12px;
-    margin-top: 6px;
-  }
-  .qr {
-    width: 120px;
-    height: 120px;
-  }
-  .back-title {
-    font-size: 11px;
-  }
-  .info-row .label {
-    font-size: 10px;
-  }
-  .info-row .value {
-    font-size: 14px;
-  }
-  .info-row .value.time {
-    font-size: 22px;
-  }
-  .info-row .muted {
-    font-size: 11px;
-  }
-  .action {
-    font-size: 12px;
-    gap: 8px;
-    padding: 9px 12px;
-  }
-  .action svg {
-    width: 18px;
-    height: 18px;
-  }
-  .official-stamp {
-    font-size: 10px;
-    padding: 4px 10px;
-    top: 16px;
-    right: 18px;
-  }
+/* ─── Responsive ─────────────────────────────────────────────────
+   Las dimensiones de la tarjeta ya son fluidas vía min(...) en :root.
+   Estas reglas escalan los elementos INTERNOS (px hardcodeados) en
+   los breakpoints típicos: tablet, phone, small phone. */
+
+/* Tablet & large phone (≤720px) — escalado intermedio */
+@media (max-width: 720px) {
+  .face.front { padding: 22px 26px; }
+  .face.back  { padding: 20px 24px; }
+  .front-grid { gap: 20px; margin-top: 6px; }
+  .snoo-wrap, .snoo { width: 110px; height: 110px; }
+  .snoo { filter: drop-shadow(0 8px 14px rgba(255,69,0,0.45)) drop-shadow(0 2px 4px rgba(0,0,0,0.15)); }
+  .badge { font-size: 12px; padding: 3px 13px; margin-bottom: 9px; }
+  .front-text h1 { font-size: 30px; }
+  .tagline { font-size: 13px; margin-top: 7px; }
+  .invited { font-size: 13px; margin-top: 7px; }
+  .front-actions { gap: 10px; margin-top: 12px; padding-top: 12px; }
+  .action { font-size: 13px; gap: 9px; padding: 10px 14px; }
+  .action svg { width: 19px; height: 19px; }
+  .official-stamp { font-size: 11px; padding: 4px 11px; top: 18px; right: 22px; border-width: 1.5px; }
+  .face.front::before { height: 8px; }
+  .face.back::before  { height: 6px; }
+  .back-title { font-size: 12px; }
+  .back-body { gap: 18px; padding-top: 14px; }
+  .qr-wrap { padding: 8px; border-radius: 10px; }
+  .qr { width: 130px; height: 130px; }
+  .back-info { gap: 10px; }
+  .info-row .label { font-size: 11px; }
+  .info-row .value { font-size: 15px; }
+  .info-row .value.time { font-size: 23px; }
+  .info-row .muted { font-size: 12px; }
+}
+
+/* Phone portrait (≤480px) — más compacto */
+@media (max-width: 480px) {
+  .face.front { padding: 16px 18px; }
+  .face.back  { padding: 14px 16px; }
+  .front-grid { gap: 14px; margin-top: 4px; }
+  .snoo-wrap, .snoo { width: 86px; height: 86px; }
+  .badge { font-size: 10px; padding: 3px 11px; margin-bottom: 7px; }
+  .front-text h1 { font-size: 23px; letter-spacing: -0.01em; }
+  .tagline { font-size: 11px; margin-top: 5px; }
+  .invited { font-size: 11px; margin-top: 5px; }
+  .front-actions { gap: 8px; margin-top: 10px; padding-top: 10px; }
+  .action { font-size: 11px; gap: 7px; padding: 8px 10px; }
+  .action svg { width: 16px; height: 16px; }
+  .official-stamp { font-size: 9px; padding: 3px 8px; top: 14px; right: 14px; letter-spacing: 0.12em; }
+  .back-title { font-size: 10px; letter-spacing: 0.14em; }
+  .back-body { gap: 14px; padding-top: 10px; }
+  .qr-wrap { padding: 6px; border-radius: 8px; }
+  .qr { width: 100px; height: 100px; }
+  .back-info { gap: 7px; }
+  .info-row .label { font-size: 9px; }
+  .info-row .value { font-size: 13px; }
+  .info-row .value.time { font-size: 19px; }
+  .info-row .muted { font-size: 10px; }
+  .flip-btn { font-size: 12px; padding: 8px 18px; bottom: -48px; }
+}
+
+/* Small phone (≤360px) — iPhone SE 1ra gen, Galaxy Fold cerrado */
+@media (max-width: 360px) {
+  .face.front { padding: 13px 14px; }
+  .face.back  { padding: 12px 13px; }
+  .front-grid { gap: 10px; }
+  .snoo-wrap, .snoo { width: 70px; height: 70px; }
+  .badge { font-size: 9px; padding: 2px 9px; margin-bottom: 5px; }
+  .front-text h1 { font-size: 19px; }
+  .tagline, .invited { font-size: 10px; }
+  .front-actions { gap: 6px; margin-top: 8px; padding-top: 8px; }
+  .action { font-size: 10px; gap: 5px; padding: 7px 8px; }
+  .action svg { width: 14px; height: 14px; }
+  .official-stamp { font-size: 8px; padding: 2px 6px; top: 11px; right: 11px; }
+  .qr { width: 84px; height: 84px; }
+  .info-row .value { font-size: 12px; }
+  .info-row .value.time { font-size: 16px; }
+}
+
+/* Landscape phone (alto limitado) — el flip-btn no debe quedar fuera */
+@media (max-height: 520px) {
+  .flip-btn { bottom: -44px; padding: 7px 16px; font-size: 11px; }
+  .flip-btn svg { width: 14px; height: 14px; }
 }
 
 /* ─── Reduced motion ────────────────────────────────────────────── */

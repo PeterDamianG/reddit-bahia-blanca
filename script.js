@@ -2,6 +2,27 @@
 // Drag threshold permite que clicks en links pasen sin interferencia.
 
 (() => {
+  // ─── Nombre del invitado por query string (?to=Nombre) ──────────
+  // Validación estricta: solo letras (incluye acentos español) y espacios,
+  // 1..32 chars. Cualquier cosa fuera de eso → fallback al default.
+  const FALLBACK_NAME = 'John Titor';
+  const NAME_RE = /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ ]+$/;
+  function pickInvitedName() {
+    try {
+      const raw = new URLSearchParams(location.search).get('to');
+      if (raw == null) return FALLBACK_NAME;
+      const clean = raw.trim().replace(/\s+/g, ' ');
+      if (!clean || clean.length > 32 || !NAME_RE.test(clean)) {
+        return FALLBACK_NAME;
+      }
+      return clean;
+    } catch (_) {
+      return FALLBACK_NAME;
+    }
+  }
+  const nameEl = document.getElementById('invitedName');
+  if (nameEl) nameEl.textContent = pickInvitedName();
+
   const card = document.getElementById('card');
   const floater = document.querySelector('.floater');
   const spinner = document.getElementById('spinner');
